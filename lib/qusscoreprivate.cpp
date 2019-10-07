@@ -25,6 +25,8 @@ bool QUssCorePrivate::genericOperation(int id, int w, uint32_t addr, uint32_t *d
 	memcpy(buf + 5, data, 4);
 	socket.write(buf, sizeof(buf));
 	if (!socket.waitForBytesWritten()) return false;
+	if (!socket.waitForReadyRead(-1)) return false;
+	socket.read((char *)data, 4);
 	return true;
 }
 
